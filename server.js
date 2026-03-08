@@ -18,10 +18,7 @@ let cadastros = []
 // id automático
 let proximoID = 1
 
-
-// =========================
 // Funções de validação
-// =========================
 
 // valida formato de email
 function emailValido(email){
@@ -35,10 +32,7 @@ function telefoneValido(telefone){
     return regex.test(telefone)
 }
 
-
-// =========================
 // Middleware de validação
-// =========================
 
 function validarCadastro(req, res, next){
 
@@ -75,10 +69,7 @@ function validarCadastro(req, res, next){
     next() // continua para rota
 }
 
-
-// =========================
 // ROTAS
-// =========================
 
 // rota teste
 app.get("/", (req, res) => {
@@ -112,9 +103,7 @@ app.post("/cadastros", validarCadastro, (req, res) => {
 })
 
 
-// =========================
 // INICIAR SERVIDOR
-// =========================
 
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`)
