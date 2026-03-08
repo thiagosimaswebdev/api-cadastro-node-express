@@ -1,10 +1,16 @@
-require("dotenv").config() // carrega variáveis de ambiente do .env
+require("dotenv").config() // carrega variáveis do .env
 
 const express = require("express")
+const cors = require("cors") // importa CORS
+
 const app = express()
 
 // porta definida no .env ou 3000
 const PORT = process.env.PORT || 3000
+
+// middleware
+app.use(cors()) // permite requisições externas (React)
+app.use(express.json()) // lê JSON do body
 
 // array simulando banco de dados
 let cadastros = []
@@ -12,11 +18,10 @@ let cadastros = []
 // id automático
 let proximoID = 1
 
-// middleware para ler JSON do body
-app.use(express.json())
 
-
+// =========================
 // Funções de validação
+// =========================
 
 // valida formato de email
 function emailValido(email){
@@ -30,7 +35,11 @@ function telefoneValido(telefone){
     return regex.test(telefone)
 }
 
+
+// =========================
 // Middleware de validação
+// =========================
+
 function validarCadastro(req, res, next){
 
     const {nome, email, telefone, mensagem} = req.body
@@ -63,11 +72,13 @@ function validarCadastro(req, res, next){
         })
     }
 
-    next() // passa para próxima etapa
+    next() // continua para rota
 }
 
 
+// =========================
 // ROTAS
+// =========================
 
 // rota teste
 app.get("/", (req, res) => {
@@ -100,7 +111,11 @@ app.post("/cadastros", validarCadastro, (req, res) => {
     })
 })
 
-// inicia servidor
+
+// =========================
+// INICIAR SERVIDOR
+// =========================
+
 app.listen(PORT, () => {
-    console.log(`Servidor rodando em http://localhost:${PORT}`)
+    console.log(`Servidor rodando na porta ${PORT}`)
 })
